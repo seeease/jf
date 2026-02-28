@@ -1,0 +1,13 @@
+.{
+    .name = .jfai,
+    .version = "0.1.0",
+    .minimum_zig_version = "0.15.0",
+    .fingerprint = 0x710dfcf3d9d16314,
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "sqlite3.c",
+        "sqlite3.h",
+    },
+}

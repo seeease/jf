@@ -10,7 +10,6 @@ pub const Config = struct {
     max_file_size: u64, // 字节
     rate_limit: f64, // 每秒令牌数
     rate_burst: u32, // 突发上限
-    clean_interval: u64, // 秒
 };
 
 /// 从环境变量加载配置，缺失时使用默认值
@@ -23,7 +22,6 @@ pub fn load() Config {
         .max_file_size = getEnvU64("JFAI_MAX_FILE_SIZE", 10485760),
         .rate_limit = getEnvF64("JFAI_RATE_LIMIT", 10.0),
         .rate_burst = getEnvU32("JFAI_RATE_BURST", 20),
-        .clean_interval = getEnvU64("JFAI_CLEAN_INTERVAL", 60),
     };
 }
 
@@ -56,5 +54,4 @@ test "默认配置加载" {
     try std.testing.expectEqual(@as(u64, 10485760), cfg.max_file_size);
     try std.testing.expectEqual(@as(f64, 10.0), cfg.rate_limit);
     try std.testing.expectEqual(@as(u32, 20), cfg.rate_burst);
-    try std.testing.expectEqual(@as(u64, 60), cfg.clean_interval);
 }

@@ -47,7 +47,6 @@ zig build test
 | `JFAI_MAX_FILE_SIZE` | 最大文件大小（字节） | 10485760 (10MB) |
 | `JFAI_RATE_LIMIT` | 每秒请求数上限 | 10 |
 | `JFAI_RATE_BURST` | 突发请求上限 | 20 |
-| `JFAI_CLEAN_INTERVAL` | 过期清理间隔（秒） | 60 |
 
 示例：
 

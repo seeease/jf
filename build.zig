@@ -11,7 +11,7 @@ pub fn build(b: *std.Build) void {
         .link_libc = true,
     });
     sqlite_mod.addCSourceFile(.{
-        .file = b.path("sqlite3.c"),
+        .file = b.path("vendor/sqlite3/sqlite3.c"),
         .flags = &.{
             "-DSQLITE_THREADSAFE=1",
             "-DSQLITE_OMIT_LOAD_EXTENSION",
@@ -30,7 +30,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
         .link_libc = true,
     });
-    exe_mod.addIncludePath(b.path("."));
+    exe_mod.addIncludePath(b.path("vendor/sqlite3"));
     exe_mod.linkLibrary(sqlite);
     const exe = b.addExecutable(.{
         .name = "jfai",
@@ -66,7 +66,7 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
             .link_libc = true,
         });
-        t_mod.addIncludePath(b.path("."));
+        t_mod.addIncludePath(b.path("vendor/sqlite3"));
         t_mod.linkLibrary(sqlite);
         const t = b.addTest(.{ .root_module = t_mod });
         const run_t = b.addRunArtifact(t);

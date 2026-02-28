@@ -40,7 +40,7 @@ pub const Cleaner = struct {
             if (self.should_stop.load(.acquire)) break;
             const cleaned = self.store.cleanExpired();
             if (cleaned > 0) {
-                std.log.info("清理了 {d} 条过期内容", .{cleaned});
+                std.log.info("cleaned {d} expired entries", .{cleaned});
             }
         }
     }

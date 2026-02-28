@@ -173,7 +173,7 @@ pub const Handler = struct {
             else => return jsonError(500, "{\"error\":\"internal error\"}"),
         };
 
-        std.log.info("创建分享: id={s} type={s} mode={s} value={d}", .{
+        std.log.info("created share: id={s} type={s} mode={s} value={d}", .{
             &result.id,
             req.type,
             req.destroy_mode,
@@ -204,11 +204,11 @@ pub const Handler = struct {
     /// 文字类型渲染 HTML，文件类型返回二进制流，不存在返回 404
     pub fn handleViewContent(self: *Handler, content_id: []const u8) Response {
         var content = self.store.getContent(content_id) orelse {
-            std.log.info("查看分享: id={s} 结果=不存在", .{content_id});
+            std.log.info("view share: id={s} result=not_found", .{content_id});
             return jsonError(404, "{\"error\":\"not found\"}");
         };
 
-        std.log.info("查看分享: id={s} type={s}", .{
+        std.log.info("view share: id={s} type={s}", .{
             content_id,
             if (content.content_type == .text) "text" else "file",
         });

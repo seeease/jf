@@ -84,8 +84,8 @@ pub fn main() !void {
     var handler = handler_mod.Handler.init(allocator, &store);
     var rtr = router_mod.Router.init(&handler, &limiter);
 
-    // 启动 Cleaner 后台线程
-    var clean = cleaner.Cleaner.init(&store, cfg.clean_interval);
+    // 启动 Cleaner 后台线程（固定 1 秒间隔）
+    var clean = cleaner.Cleaner.init(&store, 1);
     try clean.start();
     defer clean.stop();
 
@@ -94,18 +94,18 @@ pub fn main() !void {
     var server = try address.listen(.{ .reuse_address = false });
     defer server.deinit();
 
-    std.log.info("jfai 服务已启动，监听端口 {d}", .{cfg.port});
+    std.log.info("jfai server started, listening on port {d}", .{cfg.port});
 
     // 请求循环（单线程）
     while (true) {
         const conn = server.accept() catch |err| {
-            std.log.err("接受连接失败: {}", .{err});
+            std.log.err("accept connection failed: {}", .{err});
             continue;
         };
         defer conn.stream.close();
 
         handleConnection(allocator, &rtr, conn) catch |err| {
-            std.log.err("处理请求失败: {}", .{err});
+            std.log.err("handle request failed: {}", .{err});
         };
     }
 }

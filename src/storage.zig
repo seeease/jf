@@ -371,7 +371,7 @@ pub const Storage = struct {
 
     /// 删除内容：删除 SQLite 记录，如果是文件类型同时删除文件系统中的文件
     pub fn deleteContent(self: *Storage, content_id: []const u8) void {
-        std.log.info("销毁内容: id={s}", .{content_id});
+        std.log.info("destroyed content: id={s}", .{content_id});
         // 先查 file_path
         const sel_sql = "SELECT type, file_path FROM contents WHERE id = ?;";
         var sel: ?*c.sqlite3_stmt = null;

@@ -90,7 +90,7 @@ const web_ui_html =
     \\}
     \\function showErr(msg){var e=document.getElementById('error');e.textContent=msg;e.className='text-sm text-red-600 bg-red-50 p-3 rounded-lg';}
     \\function send(data){
-    \\fetch('/api/share',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+    \\fetch('api/share',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
     \\.then(function(r){if(!r.ok&&r.status!==400&&r.status!==413){throw new Error('HTTP '+r.status);}return r.json();})
     \\.then(function(j){
     \\if(j.error){showErr(j.error);return;}
@@ -190,7 +190,7 @@ pub const Handler = struct {
         // {"share_link":"/s/XXXXXXXXXXXXXXXXXXXX","id":"XXXXXXXXXXXXXXXXXXXX"}
         // 固定部分长度: {"share_link":"/s/","id":""} = 29 字符 + 22*2 = 73
         const json = try std.fmt.allocPrint(self.allocator,
-            \\{{"share_link":"/s/{s}","id":"{s}"}}
+            \\{{"share_link":"s/{s}","id":"{s}"}}
         , .{ share_id, share_id });
         return Response{
             .status = 200,

@@ -94,7 +94,7 @@ const web_ui_html =
     \\.then(function(r){if(!r.ok&&r.status!==400&&r.status!==413){throw new Error('HTTP '+r.status);}return r.json();})
     \\.then(function(j){
     \\if(j.error){showErr(j.error);return;}
-    \\var link=location.origin+j.share_link;
+    \\var link=new URL(j.share_link,location.href).href;
     \\var el=document.getElementById('result');
     \\el.innerHTML='<span class="text-green-700">分享链接：</span><a href="'+link+'" target="_blank" class="text-blue-600 underline break-all">'+link+'</a>';
     \\el.className='text-sm bg-green-50 p-3 rounded-lg';

@@ -28,6 +28,30 @@ zig build run
 ./zig-out/bin/jfai
 ```
 
+## 部署
+
+### Docker
+
+```bash
+docker run -d --name jfai \
+  -p 8080:8080 \
+  -v jfai-data:/data \
+  -e JFAI_DATA_DIR=/data \
+  ghcr.io/seeease/jf:latest
+```
+
+### 二进制
+
+从 [Releases](https://github.com/seeease/jf/releases) 下载对应平台的二进制文件：
+
+- `jfai-linux-amd64` / `jfai-linux-arm64`
+- `jfai-macos-amd64` / `jfai-macos-arm64`
+
+```bash
+chmod +x jfai-linux-amd64
+./jfai-linux-amd64
+```
+
 ## 测试
 
 ```bash

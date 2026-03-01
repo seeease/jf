@@ -77,10 +77,23 @@ pub const Storage = struct {
         max_file_size: u64,
     ) !Storage {
         // 创建数据目录（如果不存在）
-        std.fs.cwd().makePath(data_dir) catch |err| switch (err) {
-            error.PathAlreadyExists => {},
-            else => return err,
-        };
+        if (std.fs.path.isAbsolute(data_dir)) {
+            std.fs.makeDirAbsolute(data_dir) catch |err| switch (err) {
+                error.PathAlreadyExists => {},
+                else => {
+                    std.log.err("failed to create data dir '{s}': {}", .{ data_dir, err });
+                    return err;
+                },
+            };
+        } else {
+            std.fs.cwd().makePath(data_dir) catch |err| switch (err) {
+                error.PathAlreadyExists => {},
+                else => {
+                    std.log.err("failed to create data dir '{s}': {}", .{ data_dir, err });
+                    return err;
+                },
+            };
+        }
 
         // 拼接数据库路径
         const db_path = try std.fs.path.joinZ(allocator, &.{ data_dir, "jfai.db" });
@@ -90,6 +103,7 @@ pub const Storage = struct {
         var db: ?*c.sqlite3 = null;
         const rc = c.sqlite3_open(db_path.ptr, &db);
         if (rc != c.SQLITE_OK) {
+            std.log.err("failed to open sqlite db at '{s}': code={d}", .{ db_path, rc });
             if (db) |d| _ = c.sqlite3_close(d);
             return SqliteError.OpenFailed;
         }
